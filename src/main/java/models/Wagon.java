@@ -30,6 +30,18 @@ public class Wagon {
         return previousWagon;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setNextWagon(Wagon nextWagon) {
+        this.nextWagon = nextWagon;
+    }
+
+    public void setPreviousWagon(Wagon previousWagon) {
+        this.previousWagon = previousWagon;
+    }
+
     /**
      * @return  whether this wagon has a wagon appended at the tail
      */
@@ -65,9 +77,12 @@ public class Wagon {
      *          return 1 if no wagons have been attached to this wagon.
      */
     public int getSequenceLength() {
-        // TODO provide a recursive solution
+        int length = 0;
+        if(this.hasNextWagon()){
+            length += this.nextWagon.getSequenceLength();
+        }
 
-        return 1;
+        return length;
     }
 
     /**
@@ -77,8 +92,15 @@ public class Wagon {
      * @throws RuntimeException if prevWagon already has got a wagon appended.
      */
     public void attachTo(Wagon newPreviousWagon) {
-        // TODO verify the exceptions
+      Wagon wagon = newPreviousWagon;
+      Wagon temp = this;
+        if (!wagon.hasNextWagon()) {
+            wagon.setNextWagon(temp);
+            temp.setNextWagon(null);
+        }
 
+
+        // TODO verify the exceptions
         // TODO attach this wagon to its new predecessor (sustaining the invariant propositions).
     }
 
