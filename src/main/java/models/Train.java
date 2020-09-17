@@ -46,7 +46,10 @@ public class Train  implements Iterable<Wagon>{
     }
 
     public boolean isPassengerTrain() {
-       return  firstWagon instanceof PassengerWagon;
+        if(firstWagon instanceof PassengerWagon){
+            return true;
+        }
+      else {return false;}
     }
 
     public boolean isFreightTrain() {
@@ -84,9 +87,7 @@ public class Train  implements Iterable<Wagon>{
      * @return  the last wagon attached to the train
      */
     public Wagon getLastWagonAttached() {
-        // TODO
-
-        return null;
+       return null;
     }
 
     /**
@@ -130,9 +131,23 @@ public class Train  implements Iterable<Wagon>{
      *          (return null if the position is not valid for this train)
      */
     public Wagon findWagonAtPosition(int position) {
-        Wagon wagon = firstWagon;
+        Wagon currentWagon = firstWagon;
+        int numberOfWagonsFound = 1;
 
-        return null;
+        if(firstWagon == null) return null;
+
+        for (int i = 1; i < position; i++) {
+            if (currentWagon.hasNextWagon()) {
+                currentWagon = currentWagon.getNextWagon();
+                numberOfWagonsFound++;
+            }
+        }
+
+        if (numberOfWagonsFound == position) {
+            return currentWagon;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -142,7 +157,14 @@ public class Train  implements Iterable<Wagon>{
      *          (return null if no wagon was found with the given wagonId)
      */
     public Wagon findWagonById(int wagonId) {
-        // TODO
+        Wagon wagon = firstWagon;
+        if(wagon == null){return null;}
+
+       while(wagon !=null){
+           if (wagon.getId() == wagonId) return wagon;
+           else wagon = wagon.getNextWagon();
+       }
+
 
         return null;
     }

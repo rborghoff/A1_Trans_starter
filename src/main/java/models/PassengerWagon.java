@@ -10,4 +10,13 @@ public class PassengerWagon extends Wagon{
     public int getNumberOfSeats() {
         return numberOfSeats;
     }
+
+    public void setNumberOfSeats(int numberOfSeats) {
+        this.numberOfSeats = numberOfSeats;
+    }
+
+    @Override
+    public String toString() {
+        return "[Wagon-"+ id +"]";
+    }
 }

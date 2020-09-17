@@ -34,18 +34,16 @@ public class Wagon {
      * @return  whether this wagon has a wagon appended at the tail
      */
     public boolean hasNextWagon() {
-        // TODO
+        return !(nextWagon == null);
 
-        return false;
+
     }
 
     /**
      * @return  whether this wagon has a wagon prepended at the front
      */
     public boolean hasPreviousWagon() {
-        // TODO
-
-        return false;
+        return !(previousWagon == null);
     }
 
     /**
@@ -54,9 +52,12 @@ public class Wagon {
      * @return  the wagon found
      */
     public Wagon getLastWagonAttached() {
-        // TODO provide an iterative solution (without recursion)
 
-        return null;
+        if (this.hasNextWagon()) {
+            return this.nextWagon.getLastWagonAttached();
+        } else {
+            return this;
+        }
     }
 
     /**
