@@ -46,7 +46,9 @@ public class Wagon {
      * @return  whether this wagon has a wagon appended at the tail
      */
     public boolean hasNextWagon() {
-        return !(nextWagon == null);
+        if (nextWagon != null){
+            return true;
+        }else {return false;}
 
 
     }
@@ -92,16 +94,14 @@ public class Wagon {
      * @throws RuntimeException if prevWagon already has got a wagon appended.
      */
     public void attachTo(Wagon newPreviousWagon) {
-      Wagon wagon = newPreviousWagon;
-      Wagon temp = this;
-        if (!wagon.hasNextWagon()) {
-            wagon.setNextWagon(temp);
-            temp.setNextWagon(null);
-        }
+    if (!newPreviousWagon.hasNextWagon()){
+        this.setPreviousWagon(newPreviousWagon);
+        this.setNextWagon(null);
+    }
 
 
-        // TODO verify the exceptions
-        // TODO attach this wagon to its new predecessor (sustaining the invariant propositions).
+//         TODO verify the exceptions
+//         TODO attach this wagon to its new predecessor (sustaining the invariant propositions).
     }
 
     /**
