@@ -95,22 +95,21 @@ public abstract class Wagon {
     public void attachTo(Wagon newPreviousWagon) {
         if(this.hasPreviousWagon() || newPreviousWagon.hasNextWagon()){
             throw new RuntimeException();
-        } else{
-            newPreviousWagon.setNextWagon(this);
         }
-
-
-
-//         TODO verify the exceptions
-//         TODO attach this wagon to its new predecessor (sustaining the invariant propositions).
+        newPreviousWagon.setNextWagon(this);
+        this.setPreviousWagon(newPreviousWagon);
     }
+
+
+
 
     /**
      * detaches this wagon from its previous wagons.
      * no action if this wagon has no previous wagon attached.
      */
     public void detachFromPrevious() {
-        // TODO detach this wagon from its predecessors (sustaining the invariant propositions).
+        this.previousWagon.setNextWagon(null);
+        this.setPreviousWagon(null);
 
     }
 

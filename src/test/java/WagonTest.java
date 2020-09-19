@@ -26,10 +26,10 @@ public class WagonTest {
 
     @AfterEach
     private void representationInvariant() {
-//        assertTrue(!passengerWagon1.hasNextWagon() || passengerWagon1 == passengerWagon1.getNextWagon().getPreviousWagon());
-//        assertTrue(!passengerWagon2.hasNextWagon() || passengerWagon2 == passengerWagon2.getNextWagon().getPreviousWagon());
-//        assertTrue(!passengerWagon3.hasNextWagon() || passengerWagon3 == passengerWagon3.getNextWagon().getPreviousWagon());
-//        assertTrue(!passengerWagon4.hasNextWagon() || passengerWagon4 == passengerWagon4.getNextWagon().getPreviousWagon());
+        assertTrue(!passengerWagon1.hasNextWagon() || passengerWagon1 == passengerWagon1.getNextWagon().getPreviousWagon());
+        assertTrue(!passengerWagon2.hasNextWagon() || passengerWagon2 == passengerWagon2.getNextWagon().getPreviousWagon());
+        assertTrue(!passengerWagon3.hasNextWagon() || passengerWagon3 == passengerWagon3.getNextWagon().getPreviousWagon());
+        assertTrue(!passengerWagon4.hasNextWagon() || passengerWagon4 == passengerWagon4.getNextWagon().getPreviousWagon());
     }
 
     @Test
