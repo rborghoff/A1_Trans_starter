@@ -129,10 +129,8 @@ public abstract class Wagon {
      * @param newPreviousWagon
      */
     public void reAttachTo(Wagon newPreviousWagon) {
-        // TODO detach any existing connections that will be rearranged
-
-        // TODO attach this wagon to its new predecessor (sustaining the invariant propositions).
-
+        detachFromPrevious();
+        attachTo(newPreviousWagon);
     }
 
     /**
