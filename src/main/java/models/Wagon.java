@@ -14,20 +14,16 @@ public abstract class Wagon {
     // tail-connection-invariant:   wagon.nextWagon == null or wagon == wagon.nextWagon.previousWagon
     // front-connection-invariant:  wagon.previousWagon == null or wagon = wagon.previousWagon.nextWagon
 
-    public Wagon (int wagonId) {
-        this.id = wagonId;
-    }
-
     public int getId() {
         return id;
     }
 
     public Wagon getNextWagon() {
-        return nextWagon;
+        return this.nextWagon;
     }
 
     public Wagon getPreviousWagon() {
-        return previousWagon;
+        return this.previousWagon;
     }
 
     public void setId(int id) {
@@ -46,18 +42,17 @@ public abstract class Wagon {
      * @return  whether this wagon has a wagon appended at the tail
      */
     public boolean hasNextWagon() {
-        if (nextWagon != null){
+        if (this.nextWagon != null){
             return true;
-        }else {return false;}
-
-
+        }
+        return false;
     }
 
     /**
      * @return  whether this wagon has a wagon prepended at the front
      */
     public boolean hasPreviousWagon() {
-        return !(previousWagon == null);
+        return !(this.previousWagon == null);
     }
 
     /**
@@ -83,7 +78,7 @@ public abstract class Wagon {
         if(!this.hasNextWagon()){
             return 1;
         }
-        while(hasNextWagon()){
+        while(this.hasNextWagon()){
            this.nextWagon = this.nextWagon.getNextWagon();
             length++;
         }
