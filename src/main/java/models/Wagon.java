@@ -1,6 +1,6 @@
 package models;
 
-public class Wagon {
+public abstract class Wagon {
     protected int id;                 // some unique ID of a Wagon
     private Wagon nextWagon;        // another wagon that is appended at the tail of this wagon
                                     // a.k.a. the successor of this wagon in a sequence
@@ -66,7 +66,6 @@ public class Wagon {
      * @return  the wagon found
      */
     public Wagon getLastWagonAttached() {
-
         if (this.hasNextWagon()) {
             return this.nextWagon.getLastWagonAttached();
         } else {
@@ -79,11 +78,16 @@ public class Wagon {
      *          return 1 if no wagons have been attached to this wagon.
      */
     public int getSequenceLength() {
-        int length = 0;
-        if(this.hasNextWagon()){
-            length += this.nextWagon.getSequenceLength();
+        int length = 1;
+        Wagon temp = this.nextWagon;
+        if(!this.hasNextWagon()){
+            return 1;
         }
-
+        while(hasNextWagon()){
+           this.nextWagon = this.nextWagon.getNextWagon();
+            length++;
+        }
+        this.nextWagon = temp;
         return length;
     }
 
@@ -94,10 +98,12 @@ public class Wagon {
      * @throws RuntimeException if prevWagon already has got a wagon appended.
      */
     public void attachTo(Wagon newPreviousWagon) {
-    if (!newPreviousWagon.hasNextWagon()){
-        this.setPreviousWagon(newPreviousWagon);
-        this.setNextWagon(null);
-    }
+        if(this.hasPreviousWagon() || newPreviousWagon.hasNextWagon()){
+            throw new RuntimeException();
+        } else{
+            newPreviousWagon.setNextWagon(this);
+        }
+
 
 
 //         TODO verify the exceptions
