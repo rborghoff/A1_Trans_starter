@@ -108,8 +108,9 @@ public abstract class Wagon {
      * no action if this wagon has no previous wagon attached.
      */
     public void detachFromPrevious() {
+        if (this.hasPreviousWagon()){
         this.previousWagon.setNextWagon(null);
-        this.setPreviousWagon(null);
+        this.setPreviousWagon(null);}
 
     }
 
@@ -129,7 +130,11 @@ public abstract class Wagon {
      * @param newPreviousWagon
      */
     public void reAttachTo(Wagon newPreviousWagon) {
-        detachFromPrevious();
+        if(this.hasPreviousWagon()){
+        detachFromPrevious();}
+        if(newPreviousWagon.hasNextWagon()){
+            newPreviousWagon.nextWagon.detachFromPrevious();
+        }
         attachTo(newPreviousWagon);
     }
 
