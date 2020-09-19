@@ -178,8 +178,16 @@ public abstract class Wagon {
     public Wagon reverseSequence() {
         // TODO provide a recursive implementation
 
-        return null;
+        Wagon temp = this.nextWagon;
+        this.setNextWagon(this.previousWagon);
+        this.setPreviousWagon(temp);
+
+        while (this.previousWagon != null){
+            return reverseSequence();
+        }
+
+        return  this;
     }
 
-    // TODO
+
 }

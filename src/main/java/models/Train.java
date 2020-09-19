@@ -20,6 +20,7 @@ public class Train  implements Iterable<Wagon>{
     }
 
 
+
     public String getOrigin() {
         return origin;
     }
@@ -53,7 +54,7 @@ public class Train  implements Iterable<Wagon>{
     }
 
     public boolean isFreightTrain() {
-       return firstWagon instanceof FreightWagon;
+       return this.firstWagon instanceof FreightWagon;
     }
 
     public Locomotive getEngine() {
@@ -71,16 +72,19 @@ public class Train  implements Iterable<Wagon>{
      * @param newSequence   the new sequence of wagons (can be null)
      */
     public void setFirstWagon(Wagon newSequence) {
-        // TODO
+        this.firstWagon = newSequence;
     }
 
     /**
      * @return  the number of Wagons connected to the train
      */
     public int getNumberOfWagons() {
-        // TODO
+        int length=0;
+       for (Wagon wagon :this){
+           length++;
+       }
 
-        return 0;
+        return length-1;
     }
 
     /**
