@@ -1,12 +1,13 @@
 package models;
 
 import java.util.Iterator;
-
+import java.util.List;
 public class Train  implements Iterable<Wagon>{
     private String origin;
     private String destination;
     private Locomotive engine;
     private Wagon firstWagon;
+    public List<Wagon> trainWagonsList;
 
     /* Representation invariants:
         firstWagon == null || firstWagon.previousWagon == null
@@ -18,8 +19,6 @@ public class Train  implements Iterable<Wagon>{
         this.destination = destination;
         this.origin = origin;
     }
-
-
 
     public String getOrigin() {
         return origin;
@@ -43,14 +42,13 @@ public class Train  implements Iterable<Wagon>{
 
     /* three helper methods that are usefull in other methods */
     public boolean hasWagons() {
-        return (firstWagon != null);
+        return (this.firstWagon != null);
     }
 
     public boolean isPassengerTrain() {
-        if(firstWagon instanceof PassengerWagon){
-            return true;
-        }
-      else {return false;}
+        System.out.println("Next wagon : " + this.firstWagon);
+
+        return this.firstWagon instanceof PassengerWagon;
     }
 
     public boolean isFreightTrain() {
@@ -58,11 +56,11 @@ public class Train  implements Iterable<Wagon>{
     }
 
     public Locomotive getEngine() {
-        return engine;
+        return this.engine;
     }
 
     public Wagon getFirstWagon() {
-        return firstWagon;
+        return this.firstWagon;
     }
 
     /**
@@ -80,10 +78,9 @@ public class Train  implements Iterable<Wagon>{
      */
     public int getNumberOfWagons() {
         int length=0;
-       for (Wagon wagon :this){
-           length++;
-       }
-
+        for (Wagon wagon :this){
+            length++;
+        }
         return length-1;
     }
 
@@ -91,7 +88,8 @@ public class Train  implements Iterable<Wagon>{
      * @return  the last wagon attached to the train
      */
     public Wagon getLastWagonAttached() {
-       return null;
+
+        return null;
     }
 
     /**
@@ -101,13 +99,11 @@ public class Train  implements Iterable<Wagon>{
     public int getTotalNumberOfSeats() {
         int availableSeats = 0;
         if(firstWagon instanceof PassengerWagon){
-            for (Wagon wagon : this){
+            for (Wagon wagon : this) {
                 availableSeats += ((PassengerWagon) wagon).getNumberOfSeats();
             }
-            return availableSeats;
-        }else{
-            return 0;}
-
+        }
+        return availableSeats;
     }
 
     /**
@@ -122,10 +118,8 @@ public class Train  implements Iterable<Wagon>{
             for(Wagon wagon :this){
                 availableWeight += ((FreightWagon) wagon).getMaxWeight();
             }
-            return availableWeight;
-        }else {
-            return 0;}
-
+        }
+        return availableWeight;
     }
 
      /**
@@ -137,21 +131,17 @@ public class Train  implements Iterable<Wagon>{
     public Wagon findWagonAtPosition(int position) {
         Wagon currentWagon = firstWagon;
         int numberOfWagonsFound = 1;
-
         if(firstWagon == null) return null;
-
         for (int i = 1; i < position; i++) {
             if (currentWagon.hasNextWagon()) {
                 currentWagon = currentWagon.getNextWagon();
                 numberOfWagonsFound++;
             }
         }
-
         if (numberOfWagonsFound == position) {
             return currentWagon;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -162,14 +152,10 @@ public class Train  implements Iterable<Wagon>{
      */
     public Wagon findWagonById(int wagonId) {
         Wagon wagon = firstWagon;
-        if(wagon == null){return null;}
-
        while(wagon !=null){
            if (wagon.getId() == wagonId) return wagon;
            else wagon = wagon.getNextWagon();
        }
-
-
         return null;
     }
 
@@ -194,9 +180,15 @@ public class Train  implements Iterable<Wagon>{
      * @return  whether the attachment could be completed successfully
      */
     public boolean attachToRear(Wagon sequence) {
-        // TODO
-
-        return false;
+        if (this.firstWagon !=null) {
+            Wagon w = this.firstWagon;
+            while(w.hasNextWagon()){
+                w = w.getNextWagon();
+            }
+            w.attachTo(sequence);
+        }
+        this.firstWagon = sequence;
+       return true;
     }
 
     /**
@@ -270,9 +262,10 @@ public class Train  implements Iterable<Wagon>{
 
     }
 
+
     @Override
     public Iterator<Wagon> iterator() {
-        return null;
+        return trainWagonsList.iterator();
     }
 
     // TODO
