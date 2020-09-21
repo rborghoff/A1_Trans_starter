@@ -149,10 +149,29 @@ public abstract class Wagon {
      * no action if this Wagon has no succeeding next wagon attached.
      * @return the new start Wagon of the reversed sequence (with is the former last Wagon of the original sequence)
      */
-    public Wagon reverseSequence() {
-        // TODO provide a recursive implementation
+   public Wagon reverseSequence() {
+        Wagon next = null;
+        Wagon current = this;
+        Wagon prevW = this.getPreviousWagon();
 
-        return null;
+        if(prevW != null) {
+            this.getNextWagon().setNextWagon(current);
+            this.getNextWagon().setPreviousWagon(prevW);
+            prevW.setNextWagon(this.getNextWagon());
+            current.setPreviousWagon(this.getNextWagon());
+            current.setNextWagon(null);
+            return prevW.getNextWagon();
+        }
+
+        while (current != null) {
+            next = current.getNextWagon();
+            current.setNextWagon(prevW);
+            current.setPreviousWagon(next);
+            prevW = current;
+            current = next;
+        }
+
+        return  prevW;
     }
 
     // TODO
