@@ -43,11 +43,14 @@ public class Train  implements Iterable<Wagon>{
 
     /* three helper methods that are usefull in other methods */
     public boolean hasWagons() {
-        return (firstWagon != null);
+        if (this.firstWagon != null){
+            return true;
+        }
+        return false;
     }
 
     public boolean isPassengerTrain() {
-        if(firstWagon instanceof PassengerWagon){
+        if(this.firstWagon instanceof PassengerWagon){
             return true;
         }
       else {return false;}
@@ -62,7 +65,7 @@ public class Train  implements Iterable<Wagon>{
     }
 
     public Wagon getFirstWagon() {
-        return firstWagon;
+        return this.firstWagon;
     }
 
     /**
@@ -79,12 +82,12 @@ public class Train  implements Iterable<Wagon>{
      * @return  the number of Wagons connected to the train
      */
     public int getNumberOfWagons() {
-        int length=0;
-       for (Wagon wagon :this){
-           length++;
-       }
+        int lengt;
+        if(hasWagons()== false){
+            lengt = 0;
+        }else {lengt = this.firstWagon.getSequenceLength();}
 
-        return length-1;
+     return lengt;
     }
 
     /**
@@ -99,13 +102,21 @@ public class Train  implements Iterable<Wagon>{
      *          (return 0 for a freight train)
      */
     public int getTotalNumberOfSeats() {
+
         int availableSeats = 0;
+        Wagon wagon = this.firstWagon;
+        boolean pointer = true;
         if(firstWagon instanceof PassengerWagon){
-            for (Wagon wagon : this){
+
+            while (wagon.hasNextWagon()) {
                 availableSeats += ((PassengerWagon) wagon).getNumberOfSeats();
+                wagon = wagon.getNextWagon();
             }
-            return availableSeats;
-        }else{
+            return availableSeats + ((PassengerWagon) wagon).getNumberOfSeats();
+
+        }
+
+        else{
             return 0;}
 
     }
@@ -118,11 +129,13 @@ public class Train  implements Iterable<Wagon>{
      */
     public int getTotalMaxWeight() {
         int availableWeight= 0;
-        if(firstWagon instanceof PassengerWagon){
-            for(Wagon wagon :this){
-                availableWeight += ((FreightWagon) wagon).getMaxWeight();
+        Wagon wagon = this.firstWagon;
+        if(firstWagon instanceof FreightWagon){
+            while (wagon.hasNextWagon()){
+                availableWeight +=((FreightWagon) wagon).getMaxWeight();
+                wagon = wagon.getNextWagon();
             }
-            return availableWeight;
+            return availableWeight + ((FreightWagon)wagon).getMaxWeight();
         }else {
             return 0;}
 
@@ -194,9 +207,12 @@ public class Train  implements Iterable<Wagon>{
      * @return  whether the attachment could be completed successfully
      */
     public boolean attachToRear(Wagon sequence) {
-        // TODO
 
-        return false;
+        if(!hasWagons()){
+          setFirstWagon(sequence);}
+        else {sequence.attachTo(firstWagon.getLastWagonAttached());}
+
+        return true;
     }
 
     /**
