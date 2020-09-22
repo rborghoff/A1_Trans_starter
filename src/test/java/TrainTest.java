@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TrainTest {
+public class  TrainTest {
     Train passengerTrain, trainWithoutWagons, freightTrain;
 
     PassengerWagon passengerWagon1, passengerWagon2, passengerWagon3;

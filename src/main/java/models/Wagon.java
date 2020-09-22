@@ -52,7 +52,10 @@ public abstract class Wagon {
      * @return  whether this wagon has a wagon prepended at the front
      */
     public boolean hasPreviousWagon() {
-        return !(this.previousWagon == null);
+        if (this.previousWagon != null){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -108,8 +111,9 @@ public abstract class Wagon {
      * no action if this wagon has no previous wagon attached.
      */
     public void detachFromPrevious() {
+        if (this.hasPreviousWagon()){
         this.previousWagon.setNextWagon(null);
-        this.setPreviousWagon(null);
+        this.setPreviousWagon(null);}
 
     }
 
@@ -118,8 +122,9 @@ public abstract class Wagon {
      * no action if this wagon has no succeeding next wagon attached.
      */
     public void detachTail() {
-        // TODO detach this wagon from its successors (sustaining the invariant propositions).
-
+       Wagon wagon = this.nextWagon;
+        this.setNextWagon(null);
+        wagon.setPreviousWagon(null);
     }
 
     /**
@@ -129,7 +134,11 @@ public abstract class Wagon {
      * @param newPreviousWagon
      */
     public void reAttachTo(Wagon newPreviousWagon) {
-        detachFromPrevious();
+        if(this.hasPreviousWagon()){
+        detachFromPrevious();}
+        if(newPreviousWagon.hasNextWagon()){
+            newPreviousWagon.nextWagon.detachFromPrevious();
+        }
         attachTo(newPreviousWagon);
     }
 
@@ -138,7 +147,24 @@ public abstract class Wagon {
      * Reconnect the subsequence of its predecessors with the subsequence of its successors, if any.
      */
     public void removeFromSequence() {
-        // TODO
+        Wagon prev = this.previousWagon;
+        Wagon next = this.nextWagon;
+       if(this.hasNextWagon() && !this.hasPreviousWagon()){
+           Wagon wagon = this.nextWagon;
+           this.setNextWagon(null);
+           wagon.setPreviousWagon(null);
+       }
+
+        else if(!this.hasNextWagon() && this.hasPreviousWagon()){
+            this.previousWagon.setNextWagon(null);
+            this.setNextWagon(null);
+            this.setPreviousWagon(null);
+      }else {
+
+        this.previousWagon.setNextWagon(next);
+        this.nextWagon.setPreviousWagon(prev);
+        this.setNextWagon(null);
+        this.setPreviousWagon(null);}
 
     }
 
@@ -150,10 +176,29 @@ public abstract class Wagon {
      * @return the new start Wagon of the reversed sequence (with is the former last Wagon of the original sequence)
      */
     public Wagon reverseSequence() {
-        // TODO provide a recursive implementation
+        Wagon next = null;
+        Wagon current = this;
+        Wagon prevW = this.getPreviousWagon();
 
-        return null;
+        if(prevW != null) {
+            this.getNextWagon().setNextWagon(current);
+            this.getNextWagon().setPreviousWagon(prevW);
+            prevW.setNextWagon(this.getNextWagon());
+            current.setPreviousWagon(this.getNextWagon());
+            current.setNextWagon(null);
+            return prevW.getNextWagon();
+        }
+
+        while (current != null) {
+            next = current.getNextWagon();
+            current.setNextWagon(prevW);
+            current.setPreviousWagon(next);
+            prevW = current;
+            current = next;
+        }
+
+        return  prevW;
     }
 
-    // TODO
+
 }
