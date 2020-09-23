@@ -19,6 +19,6 @@ public class FreightWagon extends Wagon {
 
     @Override
     public String toString() {
-        return "[Wagon-"+ id +"]";
+        return "Wagon-"+ id +"";
     }
 }
